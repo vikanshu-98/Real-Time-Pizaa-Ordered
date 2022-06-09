@@ -1,0 +1,126 @@
+body {
+  font-family: "Lato", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #232323;
+}
+
+.cart-icon {
+  background-color: #FE5F1E;
+}
+.cart-icon:hover {
+  background-color: #b23301;
+}
+
+nav li a {
+  transition: all 0.3s ease-in-out;
+}
+nav li a:hover {
+  color: #FE5F1E;
+}
+
+.size {
+  background-color: #F8F8F8;
+}
+
+.add-to-cart {
+  border: 2px solid #FE5F1E;
+  color: #FE5F1E;
+}
+.add-to-cart:hover {
+  background: #FE5F1E;
+  border-color: #fff;
+  color: #fff;
+  transition: all 0.3s ease-in-out;
+}
+
+section.hero {
+  background-color: #F8F8F8;
+}
+
+#sideMenu {
+  position: absolute;
+  top: 20px;
+  width: 35px;
+  right: 19px;
+  z-index: 10;
+}
+
+#closeMenu {
+  position: absolute;
+  top: 8px;
+  width: 35px;
+  left: 7px;
+  z-index: 10;
+}
+
+#closeMenu, #sideMenu {
+  display: none;
+}
+
+@media only screen and (max-width: 576px) {
+  .custom-container {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  .menu .grid {
+    justify-content: center;
+  }
+  .menu h1 {
+    text-align: center;
+  }
+  nav .left-image img {
+    padding: 12px;
+  }
+}
+@media only screen and (min-width: 576px) {
+  .custom-container {
+    max-width: 540px;
+  }
+  .menu .grid {
+    justify-content: center;
+  }
+  .menu h1 {
+    text-align: center;
+  }
+}
+@media only screen and (max-width: 768px) {
+  nav {
+    padding: 0 !important;
+    align-items: normal !important;
+  }
+  #closeMenu, #sideMenu {
+    display: block;
+  }
+  #list {
+    visibility: hidden;
+    width: 50%;
+    height: 100vh;
+    right: 0;
+    display: inline-block;
+    padding: 40px 20px 0 20px;
+    box-sizing: border-box;
+    z-index: 12;
+    transition: all 0.3s ease-in-out;
+    position: fixed;
+    background-color: #ccc;
+  }
+  #list li {
+    margin-left: -5px;
+    margin-top: 30px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .custom-container {
+    max-width: 720px;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .custom-container {
+    max-width: 960px;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .custom-container {
+    max-width: 1200px;
+  }
+}

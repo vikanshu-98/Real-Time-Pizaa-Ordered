@@ -1,0 +1,150 @@
+@import 'variable';
+body{
+    font-family: 'Lato',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    color:$dark;
+}
+
+.cart-icon {
+    background-color: $primary;
+    &:hover{
+        background-color: $primary-hover;
+    }
+}
+nav li a{
+    transition: $transition;
+    &:hover{
+        color: $primary;
+    }
+}
+
+.size{
+    background-color: $secondary;
+}
+.add-to-cart{
+    border:2px solid $primary;
+    color: $primary;
+    &:hover{
+        background: $primary;
+        border-color:$pure;
+        color:$pure;
+        transition: $transition;
+    }
+}
+
+section.hero {
+    background-color: $secondary;
+}
+
+
+#sideMenu{
+    position: absolute;
+    top: 20px;
+    width: 35px;
+    right: 19px;
+    z-index: 10;
+}
+#closeMenu{
+    position: absolute;
+    top: 8px;
+    width: 35px;
+    left: 7px;
+    z-index: 10;
+}
+#closeMenu,#sideMenu{
+    display: none;
+}
+// @media only screen and  (max-width: 1536px) { 
+//     .container {
+//         max-width: 1280px;
+//     }
+// } 
+
+// @media (min-width: 768px)
+// {
+//     .container {
+//         max-width: 700px;
+//     }
+// }
+
+
+@media only screen and (max-width: 576px){
+    .custom-container{     
+        max-width: 100%;
+        padding:0  1rem;
+    } 
+    .menu {
+        & .grid{
+            justify-content: center;
+        }
+        h1{
+            text-align: center;
+        }
+    }
+    nav{
+        .left-image{
+            & img{
+
+                padding: 12px;
+            }
+        }
+    }
+}
+@media only screen and (min-width: 576px){
+    .custom-container{     
+        max-width: 540px;
+    } 
+    .menu {
+        & .grid{
+            justify-content: center;
+        }
+        h1{
+            text-align: center;
+        }
+    }
+}
+
+ 
+@media only screen and (max-width: 768px){
+    nav{
+        padding:  0 !important;
+        align-items: normal!important;
+    }
+    #closeMenu,#sideMenu{
+        display: block;
+    }
+   #list{ 
+    visibility: hidden;
+    width: 50%;
+    height: 100vh;
+    right: 0;
+    display: inline-block;
+    padding: 40px 20px 0 20px;
+    box-sizing: border-box;
+    z-index: 12;
+    transition: $transition;
+    position:fixed;
+    background-color: $grey;
+
+    & li{
+        margin-left: -5px;
+        margin-top: 30px; 
+    
+    }
+   }
+}
+@media only screen and (min-width: 768px){
+    .custom-container{     
+        max-width: 720px;
+    } 
+}
+@media only screen and (min-width: 992px){
+    .custom-container{     
+        max-width: 960px;
+    } 
+}
+@media only screen and (min-width: 1200px){
+    .custom-container{     
+        max-width: 1200px;
+    } 
+}
