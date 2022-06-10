@@ -6,14 +6,32 @@ const path = require('path')
 
   
  
-app.get('/',(req,res)=>{
-     res.render('home')
-})
+ 
 
 // set template engine
-app.use(express.static(path.join(__dirname,'/public')));
-app.set('views',path.join(__dirname,'/resources/views'));
+app.use(express.static(path.join(__dirname,'/public'))); 
+hbs.registerPartials(path.join(__dirname,'/resources/views/partials'))
+ 
 app.set('view engine','hbs') 
+
+ 
+app.set('views',path.join(__dirname,'/resources/views')); 
+app.get('/',(req,res)=>{
+    res.render('home')
+})
+
+app.get('/cart',(req,res)=>{
+    res.render('customer/cart')
+})
+ 
+app.get('/login',(req,res)=>{
+    res.render('auth/login')
+})
+ 
+app.get('/register',(req,res)=>{
+    res.render('auth/register')
+})
+
 
  
 app.listen(port,()=>{
