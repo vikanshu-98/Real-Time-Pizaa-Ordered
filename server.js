@@ -3,10 +3,9 @@ const app  = express()
 const hbs  = require('hbs')
 const port = process.env.PORT || 3000
 const path = require('path')
-
-  
- 
- 
+const intiRoutes = require('./routes/web') 
+intiRoutes(app);
+require('./app/config/connection')
 
 // set template engine
 app.use(express.static(path.join(__dirname,'/public'))); 
@@ -16,24 +15,7 @@ app.set('view engine','hbs')
 
  
 app.set('views',path.join(__dirname,'/resources/views')); 
-app.get('/',(req,res)=>{
-    res.render('home')
-})
 
-app.get('/cart',(req,res)=>{
-    res.render('customer/cart')
-})
- 
-app.get('/login',(req,res)=>{
-    res.render('auth/login')
-})
- 
-app.get('/register',(req,res)=>{
-    res.render('auth/register')
-})
-
-
- 
 app.listen(port,()=>{
     console.log(`This ${port} port number listening.`);
 })
