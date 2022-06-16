@@ -3,6 +3,7 @@ const loginController = require('../app/http/controllers/Auth/loginController')
 const registerController = require('../app/http/controllers/Auth/loginController')
 const intiRoutes = (app) => {
     app.get('/', homeController().index)
+    app.post('/updateCart',homeController().updateCart)
     app.get('/cart', (req, res) => {
         res.render('customer/cart')
     })
