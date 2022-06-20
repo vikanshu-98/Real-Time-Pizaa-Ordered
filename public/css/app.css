@@ -81,6 +81,17 @@ section.hero, section.empty-cart {
   transition: all 0.3s ease-in-out;
 }
 
+.order-details .order-link {
+  color: #FE5F1E;
+}
+.order-details table thead tr {
+  background-color: #FE5F1E;
+}
+
+#success-alert {
+  transition: 2s all;
+}
+
 @media only screen and (max-width: 576px) {
   .custom-container {
     max-width: 100%;

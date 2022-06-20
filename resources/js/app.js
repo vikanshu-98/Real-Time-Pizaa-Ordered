@@ -2,6 +2,9 @@ let display= document.getElementById('sideMenu');
 let hidden = document.getElementById('closeMenu');
 let list   = document.getElementById('list');
 const axios = require('axios')
+
+const initAdmin = require('./admin')
+
 display.onclick=function(){
     list.style.visibility="visible";  
     list.style.right="0%";
@@ -10,6 +13,12 @@ hidden.onclick=function(){
     list.style.right="-50%";
 } 
 
+const alert = document.querySelector('#success-alert')
+if(alert){
+    setTimeout(()=>{
+        alert.remove()
+    },2000)
+}
 const buttons = document.querySelectorAll('.add-to-cart');
 buttons.forEach((Btn)=>{
     Btn.addEventListener('click',(e)=>{
@@ -25,7 +34,7 @@ function updateCart(object){
             duration: 2000,
             position: {
             x: 'right',
-            y: 'top',
+            y: 'left',
 
             }
         } 
@@ -41,4 +50,7 @@ function updateCart(object){
         notyf.error('something went wrong');
     })
 }
+
+
  
+initAdmin()

@@ -25,10 +25,15 @@
                     <span class="font-bold text-lg">Total Amount:</span>
                     <span class="font-bold ml-3 amount text-2xl">&#8377; {{ session.cart.totalPrice }}</span>
                 </div>
-                <div class="cart-form">
-                    <form>
-                        <input type="text" placeholder="Phone Number" class="border border-gray-400 md:w-1/2 p-2 my-3" />
-                        <input type="text" placeholder="Address" class="border border-gray-400 md:w-1/2 p-2 my-3" />
+                <div class="cart-form"> 
+                    <form action="/order-place" method="POST">
+                        <input type="number" name="number"  value="{{mobile}}" placeholder="Phone Number" class="border border-gray-400 md:w-1/2 p-2 my-3" />
+                        <input type="text" name="address" value="{{address}}" placeholder="Address" class="border border-gray-400 md:w-1/2 p-2 my-3" />
+                        {{#if messages.error}}
+                            <div class="my-2"> 
+                                <span class="text-sm font-bold text-red-500 ">{{ messages.error}}</span>
+                            </div>
+                        {{/if}}
                         <div>
                             <button class="btn-primary py-2 px-6 rounded-full text-white font-bold">Order Now</button>
                         </div>

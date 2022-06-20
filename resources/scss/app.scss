@@ -79,6 +79,23 @@ section.hero,section.empty-cart {
         transition: $transition;
     }
 }
+
+.order-details{
+    & .order-link{
+        color: $primary;
+    }
+    & table{
+        & thead{
+            & tr{
+                background-color: $primary; 
+            } 
+        }  
+    }
+    
+}
+#success-alert{
+    transition: 2s all;
+}
 // @media only screen and  (max-width: 1536px) { 
 //     .container {
 //         max-width: 1280px;
