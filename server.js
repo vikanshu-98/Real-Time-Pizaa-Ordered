@@ -87,8 +87,7 @@ io.on('connection',function(socket){
         socket.join(id);
     })
 
-    eventemitter.on('orderUpdated',(data)=>{
-        console.log(data.orderId);
+    eventemitter.on('orderUpdated',(data)=>{ 
         io.to(data.orderId+'_order').emit('orderUpdated',data)
     })
 })

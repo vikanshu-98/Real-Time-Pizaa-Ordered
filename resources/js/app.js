@@ -19,6 +19,14 @@ if(alert){
         alert.remove()
     },2000)
 }
+
+const registerAlert = document.querySelector('#successRegistered')
+if(registerAlert){
+    setTimeout(()=>{
+        registerAlert.remove()
+    },2000)
+}
+
 const buttons = document.querySelectorAll('.add-to-cart');
 buttons.forEach((Btn)=>{
     Btn.addEventListener('click',(e)=>{

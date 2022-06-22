@@ -32,6 +32,7 @@ const registerController=()=>{
                     })
                     const results = await newUser.save()
                     if(results){
+                        req.flash("success","*Your Registration is Successfully completed!!")
                         res.redirect('/login');
                     }
                 }

@@ -2558,6 +2558,14 @@ if (alert) {
   }, 2000);
 }
 
+var registerAlert = document.querySelector('#successRegistered');
+
+if (registerAlert) {
+  setTimeout(function () {
+    registerAlert.remove();
+  }, 2000);
+}
+
 var buttons = document.querySelectorAll('.add-to-cart');
 buttons.forEach(function (Btn) {
   Btn.addEventListener('click', function (e) {
