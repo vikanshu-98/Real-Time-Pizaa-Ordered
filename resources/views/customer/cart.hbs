@@ -35,11 +35,14 @@
                             </div>
                         {{/if}}
                         <div>
+                            
+                        {{#if users}}
                             <button class="btn-primary py-2 px-6 rounded-full text-white font-bold">Order Now</button>
+                        {{else}}
+                            <a class="inline-block btn-primary py-2 px-6 rounded-full text-white font-bold" href="/login">Login to continue</a>
+                        {{/if}}
                         </div>
                     </form>
-                    {{!-- <a class="inline-block btn-primary py-2 px-6 rounded-full text-white font-bold">Login to
-                        continue</a> --}}
                 </div>
             </div>
         </div>
