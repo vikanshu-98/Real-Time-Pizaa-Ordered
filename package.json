@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js -e js,hbs,scss,css",
-    "serve": "node server.js",
+    "start": "node server.js",
     "laravel": "npx mix"
   },
   "keywords": [],
