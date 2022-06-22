@@ -12,7 +12,7 @@ const flash = require('express-flash')
 const passport  = require('passport') 
 const moment   = require('moment')
 const EventEmitter = require('events') 
-const eventemitter = new EventEmitter()
+const eventemitter = new EventEmitter() 
 
 
 // register helper
