@@ -90,4 +90,9 @@ io.on('connection',function(socket){
     eventemitter.on('orderUpdated',(data)=>{ 
         io.to(data.orderId+'_order').emit('orderUpdated',data)
     })
+
+
+    eventemitter.on('newOrderAdded',(data)=>{
+        io.to('AdminRoom').emit('newOrder',data)
+    })
 })

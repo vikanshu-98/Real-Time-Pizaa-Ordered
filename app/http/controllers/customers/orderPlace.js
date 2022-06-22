@@ -22,8 +22,13 @@ const orderPlaceController = () => {
                     number: number
                 })
                 const result = await order.save()
-                if (result) {
-                    delete req.session.cart
+                if (result) { 
+                    const resul1t =await orders.populate(result,{path:"customerId"})
+                    delete req.session.cart 
+                    const EventEmitter =req.app.get('eventemitter')
+                    if(resul1t){ 
+                        EventEmitter.emit('newOrderAdded',resul1t)
+                    } 
                     req.flash("success", "Order placed successfully.")
                     res.redirect('/customer/orders')
                 }
@@ -36,6 +41,7 @@ const orderPlaceController = () => {
                         req.flash("error", err.errors.number.message)
                     }
                 } else {
+                    console.log(err);
                     req.flash("error", "*Something went wrong.")
                 }
                 res.redirect('/cart')

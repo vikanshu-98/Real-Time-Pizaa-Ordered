@@ -48,7 +48,6 @@ function updateCart(object){
         } 
     );
     axios.post('/updateCart',object).then(function(response){
-        console.log(response); 
         const element= document.getElementById('counter');
         element.innerText = response.data.totalQty;
          
@@ -60,8 +59,7 @@ function updateCart(object){
 }
 
 
- 
-initAdmin()
+  
 
 
 //change order status
@@ -104,17 +102,27 @@ updateStatus(order)
 
 
 const socket=  io()
+
+initAdmin(socket)
 if(order){
 
     socket.on('connect',()=>{
         socket.emit('join',`${order._id}_order`)
         
     })
-    socket.on('orderUpdated',(data)=>{
-        // use of spread operator
-      let orderobject = {...order}
-        orderobject.status= data.status
-        updateStatus(orderobject)
-        console.log(orderobject)
-    })
-} 
+}
+       
+let pathName = window.location.pathname
+if(pathName.includes('/admin')){
+    socket.emit('join','AdminRoom')
+    
+}
+socket.on('orderUpdated',(data)=>{
+    // use of spread operator
+  let orderobject = {...order}
+    orderobject.status= data.status
+    updateStatus(orderobject) 
+})
+
+
+  

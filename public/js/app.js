@@ -2474,7 +2474,7 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 
-function initAdmin() {
+function initAdmin(socket) {
   var adminPlacedOrder = document.getElementById('AdminPlacedOrder');
   var adminContainer = document.getElementById('adminContainer');
   var orders = [];
@@ -2496,6 +2496,13 @@ function initAdmin() {
     console.log(err);
   });
 
+  function renderItems(items) {
+    var parseItems = Object.values(items);
+    return parseItems.map(function (menuItem) {
+      return "<p>".concat(menuItem.item.name, " - ").concat(menuItem.qty, "</p>");
+    }).join('');
+  }
+
   function generateMarkup(orders) {
     return orders.map(function (order) {
       return "\n            <tr class=\"\">\n                <td class=\"border px-4 py-2 text-left text-green-900\">\n                    <p>".concat(order._id, "</p>\n                    <div>").concat(renderItems(order.orders), "</div>\n                </td>\n                <td class=\"border px-4 py-2 text-left\">\n                    ").concat(order.customerId.name, "\n                </td>\n                <td class=\"border px-4 py-2 text-left\">\n                    ").concat(order.address, "\n                </td>\n                <td class=\"border px-4 py-2 text-left\">\n                    <div class=\"inline-block relative w-64\">\n                        <form actio=\"/admin/order/status\" method=\"POST\">\n                            <input type=\"hidden\" name=\"orderId\" value=\"").concat(order._id, "\"/>\n                            <select name=\"status\" onchange=\"this.form.submit()\" class=\"cursor-pointer font-bold block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline\">\n                                <option value=\"order_placed\" ").concat(order.status === "order_placed" ? "selected" : "", ">Placed</option>\n                                <option value=\"confirmed\" ").concat(order.status === "confirmed" ? "selected" : "", ">Confirmed</option>\n                                <option value=\"prepared\" ").concat(order.status === "prepared" ? "selected" : "", ">Prepared</option>\n                                <option value=\"delivered\" ").concat(order.status === "delivered" ? "selected" : "", ">Delivered</option>\n                                <option value=\"completed\" ").concat(order.status === "delivered" ? "completed" : "", ">Completed</option>\n                            </select>\n                        </form>\n                        <div class=\"pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700\">\n                            <svg class=\"fill-current h-4 w-4\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\">\n                                <path d=\"M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.348 8z\"/>\n                            </svg>\n                        </div>\n                    </div>\n                </td>  \n                <td class=\"border px-4 py-2 text-left\">\n                    ").concat(moment(order.createdAt).format('hh:mm:ss A'), "\n                </td>         \n                        \n            ");
@@ -2506,13 +2513,26 @@ function initAdmin() {
     return " \n        <div class=\"font-bold py-2 w-2/5 mx-auto text-center\">  \n            <p class=\"text-zinc-900  font-bold text-2xl\">\uD83D\uDE2E No Orders Found.</p>\n            <img src=\"/img/no-order.jpg\" alt=\"no-order\"/> \n            <a href=\"/\" class=\"inline-block rounded-full btn-primary text-white font-bold px-6 py-2 cursor-pointer\">Go back</a>\n        </div>  \n        ";
   }
 
-  function renderItems(items) {
-    console.log(items);
-    var parseItems = Object.values(items);
-    return parseItems.map(function (menuItem) {
-      return "<p>".concat(menuItem.item.name, " - ").concat(menuItem.qty, "</p>");
-    }).join('');
-  }
+  socket.once('newOrder', function (data) {
+    console.log(socket.id);
+    orders.unshift(data);
+    console.log(data);
+
+    if (orders.length) {
+      var notyf = new Notyf({
+        duration: 2000,
+        position: {
+          x: 'right',
+          y: 'left'
+        }
+      });
+      notyf.success('New Order Added.');
+      adminPlacedOrder.innerHTML = '';
+      adminPlacedOrder.innerHTML = generateMarkup(orders);
+    } else {
+      adminContainer.innerHTML = generateMarkUpOfNoOrder();
+    }
+  });
 }
 
 module.exports = initAdmin;
@@ -2583,16 +2603,14 @@ function updateCart(object) {
     }
   });
   axios.post('/updateCart', object).then(function (response) {
-    console.log(response);
     var element = document.getElementById('counter');
     element.innerText = response.data.totalQty;
     notyf.success('Items added to the cart');
   })["catch"](function (err) {
     notyf.error('something went wrong');
   });
-}
+} //change order status
 
-initAdmin(); //change order status
 
 var singleDocumentId = document.getElementById('singleOrderData');
 var AllList = document.querySelectorAll('.status_line');
@@ -2624,20 +2642,27 @@ function updateStatus(order) {
 
 updateStatus(order);
 var socket = io();
+initAdmin(socket);
 
 if (order) {
   socket.on('connect', function () {
     socket.emit('join', "".concat(order._id, "_order"));
   });
-  socket.on('orderUpdated', function (data) {
-    // use of spread operator
-    var orderobject = _objectSpread({}, order);
-
-    orderobject.status = data.status;
-    updateStatus(orderobject);
-    console.log(orderobject);
-  });
 }
+
+var pathName = window.location.pathname;
+
+if (pathName.includes('/admin')) {
+  socket.emit('join', 'AdminRoom');
+}
+
+socket.on('orderUpdated', function (data) {
+  // use of spread operator
+  var orderobject = _objectSpread({}, order);
+
+  orderobject.status = data.status;
+  updateStatus(orderobject);
+});
 
 /***/ }),
 

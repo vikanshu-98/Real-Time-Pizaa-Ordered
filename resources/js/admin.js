@@ -1,6 +1,6 @@
 const axios = require('axios')
 const moment  = require('moment')
-function initAdmin(){
+function initAdmin(socket){
     const adminPlacedOrder = document.getElementById('AdminPlacedOrder')
     const adminContainer  =document.getElementById('adminContainer')
     let orders = []
@@ -22,7 +22,12 @@ function initAdmin(){
     }).catch((err)=>{
         console.log(err);
     })
-
+    function renderItems(items){
+        let parseItems = Object.values(items)
+        return parseItems.map((menuItem)=>{
+            return `<p>${menuItem.item.name} - ${menuItem.qty}</p>`
+        }).join('')
+    }
     function generateMarkup(orders){
         return orders.map(order=>{
             return `
@@ -63,6 +68,7 @@ function initAdmin(){
             `
         }).join('')
     }
+ 
 
     function generateMarkUpOfNoOrder(){
         return ` 
@@ -73,13 +79,30 @@ function initAdmin(){
         </div>  
         `
     }
-    function renderItems(items){
-        console.log(items);
-        let parseItems = Object.values(items)
-        return parseItems.map((menuItem)=>{
-            return `<p>${menuItem.item.name} - ${menuItem.qty}</p>`
-        }).join('')
-    }
+ 
+    socket.once('newOrder',(data)=>{
+        orders.unshift(data) 
+        if(orders.length){  
+            var notyf = new Notyf( 
+                {
+                    duration: 2000,
+                    position: {
+                    x: 'right',
+                    y: 'left',
+        
+                    }
+                } 
+            );
+            notyf.success('New Order Added.');
+            adminPlacedOrder.innerHTML='';
+            adminPlacedOrder.innerHTML = generateMarkup(orders)
+        }else{
+            adminContainer.innerHTML = generateMarkUpOfNoOrder()
+        }
+    })
+ 
+
+ 
 
 
 }
