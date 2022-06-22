@@ -2,7 +2,7 @@ let display= document.getElementById('sideMenu');
 let hidden = document.getElementById('closeMenu');
 let list   = document.getElementById('list');
 const axios = require('axios')
-
+const moment  = require('moment')
 const initAdmin = require('./admin')
 
 display.onclick=function(){
@@ -54,3 +54,59 @@ function updateCart(object){
 
  
 initAdmin()
+
+
+//change order status
+
+
+let singleDocumentId = document.getElementById('singleOrderData')
+let AllList          = document.querySelectorAll('.status_line') 
+let order            = (singleDocumentId)?singleDocumentId.value:null
+order                = JSON.parse(order)
+let smallElement     = document.createElement('small')
+
+
+function updateStatus(order){
+    let stepCompleted = true
+    
+    AllList.forEach((status)=>{
+        
+        status.classList.remove('step-completed')
+        status.classList.remove('currentStatus')
+    })
+    AllList.forEach((status)=>{
+        let dataProp = status.dataset.status
+        if(stepCompleted){
+            status.classList.add('step-completed')
+        }
+        if(dataProp==order.status){
+            stepCompleted=false
+            smallElement.innerText= moment(order.updatedAt).format('hh:mm:ss A')
+            status.appendChild(smallElement)
+            if(status.nextElementSibling)
+                status.nextElementSibling.classList.add('currentStatus')   
+        }
+    })
+
+}
+
+
+updateStatus(order)
+
+
+
+const socket=  io()
+if(order){
+
+    socket.on('connect',()=>{
+        socket.emit('join',`${order._id}_order`)
+        
+    })
+    socket.on('orderUpdated',(data)=>{
+        // use of spread operator
+      let orderobject = {...order}
+        orderobject.status= data.status
+        updateStatus(orderobject)
+        console.log(orderobject)
+    })
+} 

@@ -89,7 +89,12 @@ section.hero,section.empty-cart {
             & tr{
                 background-color: $primary; 
             } 
-        }  
+        } 
+        & tbody{
+            & .order-link{
+                color: $primary; 
+            }
+        } 
     }
     
 }
@@ -108,6 +113,113 @@ section.hero,section.empty-cart {
 //         max-width: 700px;
 //     }
 // }
+
+// single order
+
+section.singleOrder{
+    background-color: $secondary;
+    height: calc(100vh - 86px);
+
+    & .status-box{
+        padding: 60px 0;
+        & ul{
+            margin-left: 84px;
+        }
+
+        //step completed
+        & ul li.step-completed{
+            color: $grey;
+            &::before{
+                background-color: $grey; 
+            }
+            & span::after{
+                background-color: $grey;
+            }
+        }
+
+        //current status
+
+        & ul li.currentStatus{
+            color: $primary;
+            & span::after{
+                background-color: $primary;
+            }
+        }
+
+        // line
+        & ul li{
+            position: relative;
+            & small{
+                float: right;
+                font-weight: 600;
+                margin-top: 8px;
+            }
+        }
+
+        & ul li::before{
+            content: '';
+            width: 2px;
+            height: 100%;
+            position: absolute;
+            background-color: $dark;
+            top:0;
+            left:-6px;
+            margin-top: 12px;
+        }
+        & ul li:nth-child(5) span::after{
+            
+            box-shadow: 0 20px 1px 20px $secondary;
+        }
+
+        & ul li span{
+            position: relative;
+            padding-left: 20px;
+        }
+        & ul li span::after{
+            content: '';
+            position: absolute;
+            left: -10px;
+            top:50%;
+            background-color: $dark;
+            width: 10px;
+            height: 10px;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            box-shadow: 0 0 1px 10px $secondary;
+        }
+
+        // icon
+        & ul li span::before{ 
+            font-family: "Font Awesome 5 Free";
+            font-weight: 800;  
+            font-size: 40px; 
+            position: absolute;
+            left: -90px;
+            top:50%;
+            transform: translateY(-50%);
+            color: inherit;
+        }
+        & ul li:nth-child(1) span::before{
+            content: '\f46c'; 
+        }
+        & ul li:nth-child(2) span::before{
+            content: '\f560'; 
+        }
+
+        & ul li:nth-child(3) span::before{
+            content: '\f818'; 
+        }
+
+        & ul li:nth-child(4) span::before{
+            content: '\f0d1'; 
+        }
+        
+        & ul li:nth-child(5) span::before{
+            content: '\f582'; 
+        }
+    }
+}
+
 
 
 @media only screen and (max-width: 576px){

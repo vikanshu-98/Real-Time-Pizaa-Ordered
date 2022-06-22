@@ -2525,11 +2525,19 @@ module.exports = initAdmin;
   \*****************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var display = document.getElementById('sideMenu');
 var hidden = document.getElementById('closeMenu');
 var list = document.getElementById('list');
 
 var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 
 var initAdmin = __webpack_require__(/*! ./admin */ "./resources/js/admin.js");
 
@@ -2576,7 +2584,52 @@ function updateCart(object) {
   });
 }
 
-initAdmin();
+initAdmin(); //change order status
+
+var singleDocumentId = document.getElementById('singleOrderData');
+var AllList = document.querySelectorAll('.status_line');
+var order = singleDocumentId ? singleDocumentId.value : null;
+order = JSON.parse(order);
+var smallElement = document.createElement('small');
+
+function updateStatus(order) {
+  var stepCompleted = true;
+  AllList.forEach(function (status) {
+    status.classList.remove('step-completed');
+    status.classList.remove('currentStatus');
+  });
+  AllList.forEach(function (status) {
+    var dataProp = status.dataset.status;
+
+    if (stepCompleted) {
+      status.classList.add('step-completed');
+    }
+
+    if (dataProp == order.status) {
+      stepCompleted = false;
+      smallElement.innerText = moment(order.updatedAt).format('hh:mm:ss A');
+      status.appendChild(smallElement);
+      if (status.nextElementSibling) status.nextElementSibling.classList.add('currentStatus');
+    }
+  });
+}
+
+updateStatus(order);
+var socket = io();
+
+if (order) {
+  socket.on('connect', function () {
+    socket.emit('join', "".concat(order._id, "_order"));
+  });
+  socket.on('orderUpdated', function (data) {
+    // use of spread operator
+    var orderobject = _objectSpread({}, order);
+
+    orderobject.status = data.status;
+    updateStatus(orderobject);
+    console.log(orderobject);
+  });
+}
 
 /***/ }),
 

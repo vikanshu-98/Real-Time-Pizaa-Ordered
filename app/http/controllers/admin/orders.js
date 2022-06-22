@@ -28,8 +28,9 @@ const adminController = () => {
                 const response = await orders.findByIdAndUpdate(orderId, {
                     status: status
                 }); 
-                if(response){
-                    console.log(response.status);
+                if(response){ 
+                    const EventEmitter =req.app.get('eventemitter')
+                    EventEmitter.emit('orderUpdated',{orderId:orderId,status:status})
                     req.flash('success',`order(${orderId }) status has been change from ${response.status} to ${status}`) 
                      
                 }

@@ -27,7 +27,7 @@
                     {{#each order}}
 
                     <tr>
-                        <td class="border px-4 py-2 text-left"><a href="/customer/single/{{this._id}}">{{this._id}}</a></td>
+                        <td class="border px-4 py-2 text-left order-link"><a href="/customer/single/{{this._id}}">{{this._id}}</a></td>
                         <td class="border px-4 py-2 text-left">{{this.number}}</td>
                         <td class="border px-4 py-2 text-left">{{ this.address }}</td>
                         <td class="border px-4 py-2 text-left">{{ changeDateFormat this.createdAt }}</td>
